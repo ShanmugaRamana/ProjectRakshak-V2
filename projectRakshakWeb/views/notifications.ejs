@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-body">
+    <header class="dashboard-header">
+        <h1>Match Notifications</h1>
+        <a href="/dashboard" class="logout-link">Back to Dashboard</a>
+    </header>
+    <main class="dashboard-main">
+        <div class="notification-list">
+            <% if (notifications.length > 0) { %>
+                <% notifications.forEach(noti => { %>
+                    <div class="notification-card" id="notification-<%= noti._id %>">
+                        <div class="notification-images">
+                            <div class="image-box"><label>Registered Photo</label><img src="<%= noti.registeredImage %>"></div>
+                            <div class="image-box"><label>Live Snapshot</label><img src="<%= noti.snapshotUrl %>"></div>
+                        </div>
+                        <div class="notification-info">
+                            <h3><%= noti.personName %></h3>
+                            <p>Detected on: <%= noti.cameraName %></p>
+                        </div>
+                        <div class="notification-actions">
+                            <button class="btn-research" data-id="<%= noti.personId._id %>" data-notification-id="<%= noti._id %>">Re-Search</button>
+                            <button class="btn-accept" data-id="<%= noti.personId._id %>" data-notification-id="<%= noti._id %>">Accept Match</button>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p class="no-results">No notifications yet.</p>
+            <% } %>
+        </div>
+    </main>
+    <script src="/socket.io/socket.io.js"></script>
+
+<script src="/js/dashboard-ui.js"></script>
+<script src="/js/dashboard-lost-found.js"></script>
+    <script src="/js/notifications-page.js"></script>
+
+</body>
+</html>

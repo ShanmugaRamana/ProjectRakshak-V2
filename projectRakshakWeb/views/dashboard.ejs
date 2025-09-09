@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <!-- Leaflet CSS for the map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-container" id="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Rakshak</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#overview" class="nav-link" data-target="overview-panel"><i class="fas fa-tachometer-alt"></i><span>Overview</span></a></li>
+                    <li><a href="#lost-and-found" class="nav-link active" data-target="lost-and-found-panel"><i class="fas fa-search"></i><span>Lost & Found</span></a></li>
+                    <li><a href="#staff-management" class="nav-link" data-target="staff-management-panel"><i class="fas fa-users"></i><span>Staff Management</span></a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <span>Welcome, <%= user.username %></span>
+                <a href="/auth/logout" class="logout-link">Logout</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Panel 1: Overview -->
+            <div id="overview-panel" class="content-panel active">
+                <header class="main-header">
+                    <button class="sidebar-toggle-btn"><i class="fas fa-bars"></i></button>
+                    <h1>Dashboard Overview</h1>
+                </header>
+                
+                <!-- KPI Cards Section -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+        <div class="kpi-icon total"><i class="fas fa-file-alt"></i></div>
+        <div class="kpi-info">
+            <span class="kpi-value" id="total-cases-count">0</span>
+            <span class="kpi-label">Cases Registered</span>
+        </div>
+    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon lost"><i class="fas fa-search"></i></div>
+                        <div class="kpi-info">
+                            <span class="kpi-value" id="total-lost-count">0</span>
+                            <span class="kpi-label">Currently Lost</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon found"><i class="fas fa-eye"></i></div>
+                        <div class="kpi-info">
+                            <span class="kpi-value" id="total-found-count">0</span>
+                            <span class="kpi-label">Found (Pending)</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon resolved"><i class="fas fa-check-circle"></i></div>
+                        <div class="kpi-info">
+                            <span class="kpi-value" id="total-resolved-count">0</span>
+                            <span class="kpi-label">Cases Resolved</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon staff"><i class="fas fa-users"></i></div>
+                        <div class="kpi-info">
+                            <span class="kpi-value" id="total-staff-count">0</span>
+                            <span class="kpi-label">Active Staff</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <h3>Reports per Day (Last 30 Days)</h3>
+                        <canvas id="reports-by-day-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 2: Lost & Found -->
+            <div id="lost-and-found-panel" class="content-panel active">
+                <header class="main-header">
+                    <div class="header-title-group">
+                        <button class="sidebar-toggle-btn"><i class="fas fa-bars"></i></button>
+                        <h1>Lost & Found Monitoring</h1>
+                    </div>
+                    <button id="alert-button" class="alert-btn">
+                        <span>Alerts</span>
+                        <span id="notification-count" class="notification-badge"></span>
+                    </button>
+                </header>
+                
+                <div class="monitoring-container">
+                    <div class="video-feed-container">
+                        <h3>Live Monitoring Feed</h3>
+                        <img id="live-feed" src="<%= process.env.PYTHON_BACKEND_URL %>/video_feed/0" alt="Live Camera Feed">
+                    </div>
+                    <div class="map-container">
+                        <h3>Temple Layout Map</h3>
+                        <div id="map"></div>
+                    </div>
+                </div>
+
+                <div class="controls-container">
+                    <form id="filter-form" action="/dashboard" method="GET">
+                        <input type="text" name="search" placeholder="Search by name or location..." value="<%= search %>">
+                        <select name="statusFilter" onchange="this.form.submit()">
+                            <option value="Lost" <%= statusFilter === 'Lost' ? 'selected' : '' %>>Status: Lost</option>
+                            <option value="Found" <%= statusFilter === 'Found' ? 'selected' : '' %>>Status: Found</option>
+                            <option value="All" <%= statusFilter === 'All' ? 'selected' : '' %>>Status: All</option>
+                        </select>
+                        <select name="sort" onchange="this.form.submit()">
+                            <option value="newest" <%= sort === 'newest' ? 'selected' : '' %>>Newest First</option>
+                            <option value="oldest" <%= sort === 'oldest' ? 'selected' : '' %>>Oldest First</option>
+                        </select>
+                        <button type="submit">Filter/Search</button>
+                    </form>
+                </div>
+
+                <div class="dashboard-content">
+                    <div class="person-list-container">
+                        <% if (persons.length > 0) { %>
+                            <ul class="person-list">
+                                <% persons.forEach(person => { %>
+                                    <li class="person-item" data-id="<%= person._id %>">
+                                        <div class="person-item-status status-<%= person.status.toLowerCase() %>">
+                                            <%= person.status %>
+                                        </div>
+                                        <img src="<%= person.images[0].thumbnailUrl %>" alt="Photo of <%= person.fullName %>" class="person-item-img">
+                                        <div class="person-item-info">
+                                            <p class="person-item-name"><%= person.fullName %></p>
+                                            <p class="person-item-age">Age: <%= person.age %></p>
+                                        </div>
+                                    </li>
+                                <% }) %>
+                            </ul>
+                        <% } else { %>
+                            <p class="no-results">No records found for the selected filter.</p>
+                        <% } %>
+                    </div>
+                    <div class="person-details-container" id="details-view">
+                        <p class="details-placeholder">Select a person from the list to see details.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel 3: Staff Management (UPDATED CONTENT) -->
+            <div id="staff-management-panel" class="content-panel">
+                 <header class="main-header">
+                    <button class="sidebar-toggle-btn"><i class="fas fa-bars"></i></button>
+                    <h1>Staff Management</h1>
+                </header>
+                
+                <div class="staff-options">
+                    <button class="staff-option-btn placeholder" disabled>Ambulance Driver</button>
+                    <button class="staff-option-btn placeholder" disabled>Medical Team</button>
+                    <button class="staff-option-btn" id="show-ground-staff-form">Ground Staff</button>
+                </div>
+
+                <div id="ground-staff-form-container" style="display: none;">
+                    <h2 class="form-title">Add New Ground Staff Member</h2>
+                    <form action="/staff/add" method="POST" class="staff-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" id="fullName" name="fullName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="staffId">Staff ID</label>
+                                <input type="text" id="staffId" name="staffId" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phoneNumber">Phone Number</label>
+                                <input type="tel" id="phoneNumber" name="phoneNumber" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" name="password" required minlength="6">
+                            </div>
+                            <div class="form-group">
+                                <label for="assignedZone">Assigned Zone</label>
+                                <input type="text" id="assignedZone" name="assignedZone" value="General" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="submit-btn">Add Staff Member</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="/js/dashboard-overview.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/dashboard-ui.js"></script>
+    <script src="/js/dashboard-lost-found.js"></script>
+    <script src="/js/dashboard-person-details.js"></script>
+</body>
+</html>
