@@ -23,10 +23,43 @@
 <img src="https://img.shields.io/badge/TSX-3178C6?style=for-the-badge&logo=react&logoColor=61DAFB" />
 <img src="https://img.shields.io/badge/InsightFace-0A7EB2?style=for-the-badge&logo=ai&logoColor=white" />
 <img src="https://img.shields.io/badge/Twilio-F22F46?style=for-the-badge&logo=twilio&logoColor=white" />
-<img src="https://img.shields.io/badge/2FACTOR-4A90E2?style=for-the-badge&logo=authy&logoColor=white" />
+<img src="https://img.shields.io/badge/2FACTOR-4A90E2?style=for-the-badge&logo=authy&logoColor=white" /><br><br>
+<table>
+  <tr>
+    <td valign="top" width="40%">
 
+<h2><div align="center">
+Key Features</div></h2>
+
+- **User friendly Complaint Registration**  
+- **Real-time Alerts**  
+- **Push Notifications**  
+- **Staff Management**  
+- **Role-Based Access Control**  
+- **Real time People Detection**  
+- **Admin Dashboard**
+- **Ground Staff App**
+- **Real Time SMS Alerts**
+
+</td>
+<td valign="top" width="60%" style="border-left:1px solid #ccc; padding-left:20px;">
+
+<h2><div align="center">
+FastAPI Endpoints</div></h2>
+
+- `POST /verify_faceset` 
+- `POST /update_search_status`
+- `POST/verify_resolve_status` 
+- `GET /video_feed/{camera_id}` 
+- `POST /api/upload`
+- `/dashboard`
+<br>
+</td>
+  </tr>
+</table>
 
 </div>
+
 
 
 
