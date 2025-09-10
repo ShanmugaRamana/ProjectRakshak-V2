@@ -32,7 +32,8 @@
 Our AI safety system ensures pilgrim security. It uses AI facial recognition on real-time CCTV & drone feeds to find missing people and identify high-profile criminals, instantly alerting the command center and nearest ground staff. Pilgrims access all these services instantly by scanning on-site QR codes that lead to a web portal.
 </div>
 <br><br>
-# Flow Diagram  
+
+<strong><h2>Flow Diagram</h2></strong>
 
 <div align="center">
   <img src="https://github.com/ShanmugaRamana/ProjectRakshak-V1/blob/main/public/images/Frame%201%20(2).png" alt="Flow Diagram" width="500">
@@ -72,6 +73,7 @@ FastAPI Endpoints</div></h2>
 </table>
 
 </div>
+
 
 
 
