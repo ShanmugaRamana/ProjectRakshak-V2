@@ -24,6 +24,18 @@
 <img src="https://img.shields.io/badge/InsightFace-0A7EB2?style=for-the-badge&logo=ai&logoColor=white" />
 <img src="https://img.shields.io/badge/Twilio-F22F46?style=for-the-badge&logo=twilio&logoColor=white" />
 <img src="https://img.shields.io/badge/2FACTOR-4A90E2?style=for-the-badge&logo=authy&logoColor=white" /><br><br>
+
+
+
+# Overview  
+
+Our AI safety system ensures pilgrim security. It uses AI facial recognition on real-time CCTV & drone feeds to find missing people and identify high-profile criminals, instantly alerting the command center and nearest ground staff. To prevent congestion, it predicts crowd and traffic by analyzing data from over a 100 km range, and features an SOS function with smart ambulance dispatch. Pilgrims access all these services instantly by scanning on-site QR codes that lead to a web portal.
+<br><br>
+# Flow Diagram  
+
+<div align="center">
+  <img src="https://github.com/ShanmugaRamana/ProjectRakshak-V1/blob/main/public/images/Frame%201%20(2).png" alt="Flow Diagram" width="800">
+</div><br><br>
 <table>
   <tr>
     <td valign="top" width="40%">
@@ -59,8 +71,3 @@ FastAPI Endpoints</div></h2>
 </table>
 
 </div>
-
-
-
-
-
