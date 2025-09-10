@@ -34,7 +34,7 @@ Our AI safety system ensures pilgrim security. It uses AI facial recognition on 
 # Flow Diagram  
 
 <div align="center">
-  <img src="https://github.com/ShanmugaRamana/ProjectRakshak-V1/blob/main/public/images/Frame%201%20(2).png" alt="Flow Diagram" width="800">
+  <img src="https://github.com/ShanmugaRamana/ProjectRakshak-V1/blob/main/public/images/Frame%201%20(2).png" alt="Flow Diagram" width="500">
 </div><br><br>
 <table>
   <tr>
@@ -71,4 +71,5 @@ FastAPI Endpoints</div></h2>
 </table>
 
 </div>
+
 
